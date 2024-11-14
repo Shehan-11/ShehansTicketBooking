@@ -57,3 +57,17 @@ public class Configuration {
                 '}';
     }
 }
+
+//        ConfigurationManager configManager = new ConfigurationManager();
+
+//        // Example user input values
+//        Configuration config = new Configuration(550, 55, 10.54, 5.75);
+//
+//        // Save configuration to the database
+//        configManager.saveConfiguration(config);
+//
+//        // Load the latest configuration
+//        Configuration latestConfig = configManager.loadLatestConfig();
+//        if (latestConfig != null) {
+//            System.out.println("Loaded configuration: " + latestConfig);
+//        }
