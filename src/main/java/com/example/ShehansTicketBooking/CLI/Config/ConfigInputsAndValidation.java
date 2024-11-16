@@ -1,11 +1,21 @@
+/**
+ * This class is used to handle user input and validation for ticket booking system configurations.
+ * It provides methods for validating maximum ticket capacity, total tickets, ticket release rate,
+ * and customer retrieval rate.
+ */
+
 package com.example.ShehansTicketBooking.CLI.Config;
 
 import java.util.Scanner;
 
-public class ConfigInputsAndValidations {
+public class ConfigInputsAndValidation {
     private static final Scanner scanner = new Scanner(System.in);
 
-    // This Method is used to take input for tha Max Ticket and Validate it
+    /**
+     * This Method is used to take input for tha Max Ticket and Validate it
+     *
+     * @return maxTicketCapacity - the validated maximum ticket capacity
+     */
     public static int validateMaxTicketCapacity() {
         int maxTicketCapacity;
         while (true) {
@@ -25,9 +35,12 @@ public class ConfigInputsAndValidations {
         }
     }
 
-    /*
-    This Method is used to take input for tha Total Tickets and Validate it. This method takes a maxTicketCapacity as a
-    Parameter to compare Total Tickets with Max Tickets
+    /**
+     * This Method is used to take input for tha Total Tickets and Validate it. This method takes a maxTicketCapacity as a
+     * Parameter to compare Total Tickets with Max Tickets
+     *
+     * @param maxTicketCapacity - the maximum allowed ticket capacity for the system
+     * @return totalTickets - the validated total tickets available
      */
     public static int validateTotalTickets(int maxTicketCapacity) {
         int totalTickets;
@@ -47,39 +60,49 @@ public class ConfigInputsAndValidations {
         }
     }
 
-    // This Method is used to take input for Ticket Release Rate and Validate it
-    public static double validateTicketReleaseRate() {
-        double ticketReleaseRate;
+    /**
+     * Prompts the user to input the ticket release rate and validates it.
+     * Ensures that the entered value is a positive integer.
+     *
+     * @return ticketReleaseRate - the validated ticket release rate per 10 seconds
+     */
+    public static int validateTicketReleaseRate() {
+        int ticketReleaseRate;
         while (true) {
-            System.out.print("Enter Ticket Release Rate (s): ");
-            if (scanner.hasNextDouble()) {
-                ticketReleaseRate = scanner.nextDouble();
+            System.out.print("Enter Ticket Release Rate Per 10 seconds: ");
+            if (scanner.hasNextInt()) {
+                ticketReleaseRate = scanner.nextInt();
                 if (ticketReleaseRate > 0) {
                     return ticketReleaseRate;
                 } else {
                     System.out.println("Error: Ticket Release Rate must be greater than 0");
                 }
             } else {
-                System.out.println("Error: Please enter a valid decimal number.");
+                System.out.println("Error: Please enter a valid Integer number.");
                 scanner.next(); // Clear invalid input
             }
         }
     }
 
-    // This Method is used to take input for Customer Retrieval Rate and Validate it
-    public static double validateCustomerRetrievalRate() {
-        double customerRetrievalRate;
+    /**
+     * Prompts the user to input the customer retrieval rate and validates it.
+     * Ensures that the entered value is a positive integer.
+     *
+     * @return customerRetrievalRate - the validated customer retrieval rate per 10 seconds
+     */
+    public static int validateCustomerRetrievalRate() {
+        int customerRetrievalRate;
         while (true) {
-            System.out.print("Enter Customer Retrieval Rate (s): ");
-            if (scanner.hasNextDouble()) {
-                customerRetrievalRate = scanner.nextDouble();
+            System.out.print("Enter Customer Retrieval Rate Per 10 seconds: ");
+            if (scanner.hasNextInt()) {
+                customerRetrievalRate = scanner.nextInt();
                 if (customerRetrievalRate > 0) {
                     return customerRetrievalRate;
                 } else {
                     System.out.println("Error: Customer Retrieval Rate must be greater than 0");
                 }
             } else {
-                System.out.println("Error: Please enter a valid decimal number");
+                System.out.println("Error: Please enter a valid Integer number");
                 scanner.next(); // Clear invalid input
             }
         }

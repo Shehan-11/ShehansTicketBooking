@@ -1,17 +1,35 @@
+/**
+ * This class is used to store and manage the configuration settings for the ticket booking system.
+ * Configuration includes maximum ticket capacity, total tickets, ticket release rate, and customer retrieval rate.
+ */
+
 package com.example.ShehansTicketBooking.CLI.Config;
 import java.time.LocalDateTime;
 
 public class Configuration {
-    // Used final because after Saving the configurations to the DB we don't wanna modify the values
-    private Integer configID;
-    private final Integer maxTicketCapacity;
-    private final Integer totalTickets;
-    private final double ticketReleaseRate;
-    private final double customerRetrievalRate;
+    // Config ID to uniquely identify each configuration instance in the database
+    private int configID;
+    // Maximum ticket capacity allowed in the system, cannot be modified after creation
+    private final int maxTicketCapacity;
+    // Total tickets available in the system, cannot be modified after creation
+    private final int totalTickets;
+    // Rate at which tickets are released, cannot be modified after creation
+    private final int ticketReleaseRate;
+    // Rate at which customers retrieve tickets, cannot be modified after creation
+    private final int customerRetrievalRate;
+    // Last updated timestamp for this configuration, for tracking changes
     private LocalDateTime lastUpdateDate;
 
-    // This Constructor is to load configurations from the ConfigurationManager Class
-    public Configuration(Integer configID, Integer maxTicketCapacity, Integer totalTickets, double ticketReleaseRate, double customerRetrievalRate, LocalDateTime lastUpdateDate) {
+    /**
+     * Constructor to load an existing configuration from the ConfigurationManager class.
+     * @param configID Unique identifier for the configuration
+     * @param maxTicketCapacity Maximum number of tickets allowed in the system
+     * @param totalTickets Total number of tickets available
+     * @param ticketReleaseRate Rate at which tickets are released
+     * @param customerRetrievalRate Rate at which customers retrieve tickets
+     * @param lastUpdateDate Last update date of this configuration
+     */
+    public Configuration(int configID, int maxTicketCapacity, int totalTickets, int ticketReleaseRate, int customerRetrievalRate, LocalDateTime lastUpdateDate) {
         this.configID = configID;
         this.maxTicketCapacity = maxTicketCapacity;
         this.totalTickets = totalTickets;
@@ -20,31 +38,44 @@ public class Configuration {
         this.lastUpdateDate = lastUpdateDate;
     }
 
-    // Constructor of the Configuration Class - Used in Main Class
-    public Configuration(Integer maxTicketCapacity, Integer totalTickets, double ticketReleaseRate, double customerRetrievalRate) {
+    /**
+     * Constructor for creating a new configuration with specific settings.
+     * @param maxTicketCapacity Maximum number of tickets allowed in the system
+     * @param totalTickets Total number of tickets available
+     * @param ticketReleaseRate Rate at which tickets are released
+     * @param customerRetrievalRate Rate at which customers retrieve tickets
+     */
+    public Configuration(int maxTicketCapacity, int totalTickets, int ticketReleaseRate, int customerRetrievalRate) {
         this.maxTicketCapacity = maxTicketCapacity;
         this.totalTickets = totalTickets;
         this.ticketReleaseRate = ticketReleaseRate;
         this.customerRetrievalRate = customerRetrievalRate;
     }
 
-    public Integer getMaxTicketCapacity() {
+    // Getter method for maximum ticket capacity
+    public int getMaxTicketCapacity() {
         return maxTicketCapacity;
     }
 
-    public Integer getTotalTickets() {
+    // Getter method for total tickets
+    public int getTotalTickets() {
         return totalTickets;
     }
 
-    public double getTicketReleaseRate() {
+    // Getter method for ticket release rate
+    public int getTicketReleaseRate() {
         return ticketReleaseRate;
     }
 
-    public double getCustomerRetrievalRate() {
+    // Getter method for customer retrieval rate
+    public int getCustomerRetrievalRate() {
         return customerRetrievalRate;
     }
 
-    // Convert Object to a Readable String
+    /**
+     * Returns a string representation of the configuration, making it easier to read the details.
+     * @return A string describing the configuration's properties
+     */
     @Override
     public String toString() {
         return "Configuration {" +
@@ -57,17 +88,3 @@ public class Configuration {
                 '}';
     }
 }
-
-//        ConfigurationManager configManager = new ConfigurationManager();
-
-//        // Example user input values
-//        Configuration config = new Configuration(550, 55, 10.54, 5.75);
-//
-//        // Save configuration to the database
-//        configManager.saveConfiguration(config);
-//
-//        // Load the latest configuration
-//        Configuration latestConfig = configManager.loadLatestConfig();
-//        if (latestConfig != null) {
-//            System.out.println("Loaded configuration: " + latestConfig);
-//        }

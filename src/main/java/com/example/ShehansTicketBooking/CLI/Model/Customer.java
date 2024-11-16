@@ -1,28 +1,42 @@
+/**
+ * This class is used to represent a customer in the ticketing system,
+ * responsible for retrieving tickets from the TicketPool at a specified rate.
+ */
+
 package com.example.ShehansTicketBooking.CLI.Model;
 
-public class Customer extends User{
-    private String userName;
-    private String password;
+import com.example.ShehansTicketBooking.CLI.Ticket.TicketPool;
 
-    public Customer(String name, String NIC, int phoneNumber, String userName, String password) {
-        super(name, NIC, phoneNumber);
-        this.userName = userName;
-        this.password = password;
+public class Customer implements Runnable {
+    private final TicketPool ticketPool; // The shared ticket pool from which tickets are retrieved
+    private final int customerRetrievalRate; // The rate at which the customer retrieves tickets
+
+    // Constructor to initialize the ticket pool and retrieval rate
+    public Customer(TicketPool ticketPool, int customerRetrievalRate) {
+        this.ticketPool = ticketPool;
+        this.customerRetrievalRate = customerRetrievalRate;
     }
 
-    public String getUserName() {
-        return userName;
-    }
+    @Override
+    public void run() {
+        // Continue retrieving tickets while the thread is not interrupted
+        while (!Thread.currentThread().isInterrupted()) {
+            // Attempt to remove tickets from the pool
+            if (!ticketPool.removeTickets(customerRetrievalRate)) {
+                // If no tickets are available, print message and terminate
+                System.out.println("No tickets available. Customer Left the System.");
+                break;
+            }
+            // Print confirmation of ticket removal and current total
+            System.out.println("Purchased " + customerRetrievalRate + " tickets By a Customer. Total Tickets in The System: " + ticketPool.getTotalTickets());
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+            // Pause the thread for 1 second before the next retrieval attempt
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                // Re-interrupt the thread if interrupted during sleep, allowing termination
+                Thread.currentThread().interrupt();
+            }
+        }
     }
 }
