@@ -19,6 +19,8 @@ public class TicketPool {
 
     // Synchronized method to add tickets to the pool
     public synchronized boolean addTickets(int quantity) {
+        // If Current Ticket + Adding Ticket Quantity is less than or equal to total tickets and Sold Tickets + Adding Quantity + Current Tickets in the Pool
+        // is less than or Equal to max ticket capacity this will add tickets to the pool
         if (currentTicket + quantity <= totalTickets && totalSoldTickets + quantity + currentTicket <= maxTicketCapacity) {
             currentTicket += quantity;  // Add tickets to the pool
             return true;  // Tickets added successfully

@@ -26,7 +26,7 @@ public class Customer implements Runnable {
                 // Print confirmation of ticket removal and current total
                 System.out.println("Purchased " + customerRetrievalRate + " tickets by a Customer. No of Tickets available for Purchase: " + ticketPool.getCurrentTicket());
             } else {
-                // If no tickets are available, print message and terminate
+                // If no tickets are available, but still not reached max ticket level customer will wait
                 System.out.println("No Tickets Available for Purchase. Customer is waiting for new Tickets...");
             }
 
