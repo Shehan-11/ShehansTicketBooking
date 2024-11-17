@@ -19,6 +19,10 @@ public class TicketManager {
     private final TicketPool ticketPool;
     private final Configuration config;
 
+    private Vendor vendor1;
+    private Vendor vendor2;
+    private Customer customer;
+
     /**
      * Constructor to initialize TicketManager with a specific ticket pool and configuration.
      * @param ticketPool The pool of tickets shared between Vendor and Customer
@@ -36,21 +40,21 @@ public class TicketManager {
     public void startSimulation() {
         // Initialize and start the Vendor thread if it's not already running
         if (vendorThread == null || !vendorThread.isAlive()) {
-            Vendor vendor = new Vendor(ticketPool, config.getTicketReleaseRate());
-            vendorThread = new Thread(vendor);
-            vendorThread.start();  // Start the Vendor thread
+            vendor1 = new Vendor(ticketPool, config.getTicketReleaseRate(), 100); // Vendor01 with 100 tickets
+            vendorThread = new Thread(vendor1);
+            vendorThread.start();
         }
 
         // Initialize and start the Vendor2 thread if it's not already running to simulate 2 vendors adding Tickets
         if (vendorThread2 == null || !vendorThread2.isAlive()) {
-            Vendor vendor2 = new Vendor(ticketPool, config.getTicketReleaseRate());
+            vendor2 = new Vendor(ticketPool, config.getTicketReleaseRate(), 50); // Vendor02 with 50 tickets
             vendorThread2 = new Thread(vendor2);
             vendorThread2.start();  // Start the Vendor thread
         }
 
         // Initialize and start the Customer thread if it's not already running
         if (customerThread == null || !customerThread.isAlive()) {
-            Customer customer = new Customer(ticketPool, config.getCustomerRetrievalRate());
+            customer = new Customer(ticketPool, config.getCustomerRetrievalRate());
             customerThread = new Thread(customer);
             customerThread.start();  // Start the Customer thread
         }
@@ -95,9 +99,12 @@ public class TicketManager {
                     ==============================
                     |  Monitoring Ticket Status  |
                     ============================== \n""");
-        System.out.println("Max Ticket Capacity: " + ticketPool.getMaxTicketCapacity());  // Display max ticket capacity
-        System.out.println("Vendor Release Rate: " + config.getTicketReleaseRate());  // Display vendor release rate
-        System.out.println("Customer Retrieval Rate: " + config.getCustomerRetrievalRate());  // Display customer retrieval rate
-        System.out.println("Total Tickets in The System: " + ticketPool.getTotalTickets());  // Display total ticket count
+        System.out.println("Max Ticket Capacity in the System: " + ticketPool.getMaxTicketCapacity());  // Display max ticket capacity
+        System.out.println("Vendor Release Rate (Tickets Per Second): " + config.getTicketReleaseRate());  // Display vendor release rate
+        System.out.println("Customer Retrieval Rate (Tickets Per Second): " + config.getCustomerRetrievalRate());  // Display customer retrieval rate
+        System.out.println("Total Tickets in The System (At the Moment): " + ticketPool.getTotalTickets());  // Display total ticket count
+        System.out.println("Vendor 1 Tickets Left: " + (vendor1 != null ? vendor1.getVendorInventory() : "Not Available"));
+        System.out.println("Vendor 2 Tickets Left: " + (vendor2 != null ? vendor2.getVendorInventory() : "Not Available"));
+        System.out.println("Total Tickets Purchased by Customer: " + (customer != null ? customer.getTicketsPurchased() : "Not Available"));
     }
 }
