@@ -91,7 +91,8 @@ public class TicketManager {
 
     /**
      * Displays the current ticket status, including maximum ticket capacity, ticket release rate,
-     * customer retrieval rate, and total tickets currently in the system.
+     * customer retrieval rate, total tickets currently in the system,
+     * Vendor Ticket Counts and Total No of Tickets that customer purchased.
      */
     public void monitorStatus() {
         System.out.println("""
