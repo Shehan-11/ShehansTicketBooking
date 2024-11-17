@@ -20,7 +20,7 @@ public class ConfigInputsAndValidation {
         int maxTicketCapacity;
         while (true) {
             System.out.println();
-            System.out.print("Enter Max Ticket Capacity for the System: ");
+            System.out.print("Enter Total No Tickets for the Event (Max Ticket Capacity): ");
             if (scanner.hasNextInt()) {
                 maxTicketCapacity = scanner.nextInt();
                 if (maxTicketCapacity > 0) {
@@ -45,7 +45,7 @@ public class ConfigInputsAndValidation {
     public static int validateTotalTickets(int maxTicketCapacity) {
         int totalTickets;
         while (true) {
-            System.out.print("Enter Total Tickets Available in the System: ");
+            System.out.print("Enter Total No of Tickets Available in the System at a Given Time: ");
             if (scanner.hasNextInt()) {
                 totalTickets = scanner.nextInt();
                 if (totalTickets > 0 && totalTickets <= maxTicketCapacity) {
@@ -69,7 +69,7 @@ public class ConfigInputsAndValidation {
     public static int validateTicketReleaseRate() {
         int ticketReleaseRate;
         while (true) {
-            System.out.print("Enter Ticket Release Rate Per 10 seconds: ");
+            System.out.print("Enter Vendor Ticket Release Rate Per second: ");
             if (scanner.hasNextInt()) {
                 ticketReleaseRate = scanner.nextInt();
                 if (ticketReleaseRate > 0) {
@@ -93,7 +93,7 @@ public class ConfigInputsAndValidation {
     public static int validateCustomerRetrievalRate() {
         int customerRetrievalRate;
         while (true) {
-            System.out.print("Enter Customer Retrieval Rate Per 10 seconds: ");
+            System.out.print("Enter Customer Retrieval Rate Per second: ");
             if (scanner.hasNextInt()) {
                 customerRetrievalRate = scanner.nextInt();
                 if (customerRetrievalRate > 0) {
