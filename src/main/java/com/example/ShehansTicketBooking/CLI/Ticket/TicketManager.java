@@ -14,6 +14,7 @@ public class TicketManager {
     private Thread vendorThread1;
     private Thread vendorThread2;
     private Thread customerThread;
+    private Thread customerThread2;
 
     // Ticket pool holds the current state of tickets, and configuration defines simulation settings
     private final TicketPool ticketPool;
@@ -52,6 +53,12 @@ public class TicketManager {
             customerThread.start();
         }
 
+        if (customerThread2 == null || !customerThread2.isAlive()) {
+            Customer customer2 = new Customer(ticketPool, config.getCustomerRetrievalRate());
+            customerThread2 = new Thread(customer2);
+            customerThread2.start();
+        }
+
         System.out.println("Simulation started.");
     }
 
@@ -72,9 +79,14 @@ public class TicketManager {
             customerThread.interrupt();
         }
 
+        if (customerThread2 != null && customerThread2.isAlive()) {
+            customerThread2.interrupt();
+        }
+
         vendorThread1 = null;
         vendorThread2 = null;
         customerThread = null;
+        customerThread2 = null;
 
         System.out.println("Simulation stopped.");
     }
