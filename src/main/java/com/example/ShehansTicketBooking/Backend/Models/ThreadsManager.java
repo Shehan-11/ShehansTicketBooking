@@ -1,6 +1,9 @@
 package com.example.ShehansTicketBooking.Backend.Models;
 
-public class TicketsManager {
+import java.util.HashMap;
+import java.util.Map;
+
+public class ThreadsManager {
     // Threads for handling Vendor and Customer ticket actions
     private Thread vendorThread1;
     private Thread vendorThread2;
@@ -11,7 +14,7 @@ public class TicketsManager {
     private final Tickets tickets;
     private final Configuration config;
 
-    public TicketsManager(Tickets tickets, Configuration config) {
+    public ThreadsManager(Tickets tickets, Configuration config) {
         this.tickets = tickets;
         this.config = config;
     }
@@ -75,25 +78,19 @@ public class TicketsManager {
     /**
      * Displays the current ticket status, including maximum ticket capacity, ticket release rate,
      * customer retrieval rate, total ticketsManager currently in the system,
-     * Vendor Ticket Counts and Total No of TicketsManager that customer purchased.
+     * Vendor Ticket Counts and Total No of ThreadsManager that customer purchased.
      */
-    public String monitorStatus() {
-        StringBuilder statusReport = new StringBuilder();
-        //Max Ticket Capacity in System
-        statusReport.append("\nMaxTicketCapacity: ").append(tickets.getMaxTicketCapacity());
-        //Maximum No of TicketsManager that can be on the Ticket Pool
-        statusReport.append("\nTotalTickets: ").append(tickets.getTotalTickets());
-        //Vendor Release Rate (TicketsManager Per Second)
-        statusReport.append("\nTicketReleaseRate: ").append(config.getTicketReleaseRate());
-        //Customer Retrieval Rate (TicketsManager Per Second)
-        statusReport.append("\nCustomerRetrievalRate: ").append(config.getCustomerRetrievalRate());
-        //Total TicketsManager Available in the System (Not Sold Yet)
-        statusReport.append("\nCurrentTicket: ").append(tickets.getCurrentTicket());
-        //Total TicketsManager Purchased by Customer
-        statusReport.append("\nTotalSoldTickets: ").append(tickets.getTotalSoldTickets());
+    public Map<String, Object> getMonitorStatusAsJson() {
+        Map<String, Object> statusReport = new HashMap<>();
+        statusReport.put("MaxTicketCapacity", tickets.getMaxTicketCapacity());
+        statusReport.put("TotalTickets", tickets.getTotalTickets());
+        statusReport.put("TicketReleaseRate", config.getTicketReleaseRate());
+        statusReport.put("CustomerRetrievalRate", config.getCustomerRetrievalRate());
+        statusReport.put("CurrentTicket", tickets.getCurrentTicket());
+        statusReport.put("TotalSoldTickets", tickets.getTotalSoldTickets());
         int remainingTickets = tickets.getMaxTicketCapacity() - tickets.getTotalSoldTickets() - tickets.getCurrentTicket();
-        //Remaining TicketsManager to Sell
-        statusReport.append("\nremainingTickets: ").append(remainingTickets);
-        return statusReport.toString();
+        statusReport.put("RemainingTickets", remainingTickets);
+
+        return statusReport;
     }
 }
