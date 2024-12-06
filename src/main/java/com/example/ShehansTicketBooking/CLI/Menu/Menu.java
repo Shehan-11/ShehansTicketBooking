@@ -8,7 +8,6 @@ package com.example.ShehansTicketBooking.CLI.Menu;
 import com.example.ShehansTicketBooking.CLI.Config.ConfigInputsAndValidation;
 import com.example.ShehansTicketBooking.CLI.Config.Configuration;
 import com.example.ShehansTicketBooking.CLI.DataBase.ConfigurationManager;
-import com.example.ShehansTicketBooking.CLI.DataBase.UserNamePasswordValidation;
 import com.example.ShehansTicketBooking.CLI.Ticket.TicketManager;
 import com.example.ShehansTicketBooking.CLI.Ticket.TicketPool;
 
@@ -68,87 +67,62 @@ public class Menu {
     public static void adminPanel() {
 
         Scanner scanner = new Scanner(System.in);
-        boolean loginStatus = false;
+        boolean keepRunning = true;
 
-        while (!loginStatus) {
+        // Display configuration options for authenticated admin
+        while (keepRunning) {
             System.out.println("""
-                    
-                    =======================
-                    |     Admin Login     |
-                    =======================
-                    """);
+                
+                ===============================
+                |     System Configuration    |
+                ===============================
+                
+                Please choose an option:
+                1. Load the current saved configuration
+                2. Create a new configuration
+                3. Go to Main Menu
+                """);
 
-            UserNamePasswordValidation adminLoginValidation = new UserNamePasswordValidation();
+            System.out.print("Enter your choice: ");
 
-            System.out.print("Enter your User Name: ");
-            adminLoginValidation.setUserName(scanner.next());
-            System.out.print("Enter your Password: ");
-            adminLoginValidation.setPassword(scanner.next());
+            int choice;
+            try {
+                choice = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter an valid integer");
+                scanner.next(); // Clear the invalid input
+                continue; // Restart the loop
+            }
 
-            if (adminLoginValidation.verifyAdminLogin()) { // Verify admin login
-                System.out.println("User logged in successfully. Logged as: " + adminLoginValidation.getUserName().toUpperCase());
-                boolean keepRunning = true;
-
-                // Display configuration options for authenticated admin
-                while (keepRunning) {
-                    System.out.println("""
-                        
-                        ===============================
-                        |     System Configuration    |
-                        ===============================
-                        
-                        Please choose an option:
-                        1. Load the current saved configuration
-                        2. Create a new configuration
-                        3. Go to Main Menu
-                        """);
-
-                    System.out.print("Enter your choice: ");
-
-                    int choice;
-                    try {
-                        choice = scanner.nextInt();
-                    } catch (InputMismatchException e) {
-                        System.out.println("Invalid input. Please enter an valid integer");
-                        scanner.next(); // Clear the invalid input
-                        continue; // Restart the loop
-                    }
-
-                    switch (choice) {
-                        case 1 -> {
-                            ConfigurationManager configManager = new ConfigurationManager();
-                            Configuration latestConfig = configManager.loadLatestConfig();
-                            if (latestConfig != null) {
-                                System.out.println("Loaded configuration: " + latestConfig);
-                            } else {
-                                System.out.println("No saved configuration found.");
-                            }
-                        }
-
-                        case 2 -> {
-                            // Set new configuration details
-                            int maxTicketCapacity = ConfigInputsAndValidation.validateMaxTicketCapacity();
-                            int totalTickets = ConfigInputsAndValidation.validateTotalTickets(maxTicketCapacity);
-                            int ticketReleaseRate = ConfigInputsAndValidation.validateTicketReleaseRate();
-                            int customerRetrievalRate = ConfigInputsAndValidation.validateCustomerRetrievalRate();
-
-                            // Save new configuration
-                            Configuration config = new Configuration(maxTicketCapacity, totalTickets, ticketReleaseRate, customerRetrievalRate);
-                            ConfigurationManager configManager = new ConfigurationManager();
-                            configManager.saveConfiguration(config);
-                        }
-
-                        case 3 -> {
-                            System.out.println("Returning to Main Menu...");
-                            keepRunning = false; // Exit the loop to return to Main Menu
-                        }
-                        default -> System.out.println("Invalid choice. Please select 1, 2, or 3.");
+            switch (choice) {
+                case 1 -> {
+                    ConfigurationManager configManager = new ConfigurationManager();
+                    Configuration latestConfig = configManager.loadLatestConfig();
+                    if (latestConfig != null) {
+                        System.out.println("Loaded configuration: " + latestConfig);
+                    } else {
+                        System.out.println("No saved configuration found.");
                     }
                 }
 
-                loginStatus = true; // End login loop
-            } else {
-                System.out.println("Invalid username or password. Please try again.\n");
+                case 2 -> {
+                    // Set new configuration details
+                    int maxTicketCapacity = ConfigInputsAndValidation.validateMaxTicketCapacity();
+                    int totalTickets = ConfigInputsAndValidation.validateTotalTickets(maxTicketCapacity);
+                    int ticketReleaseRate = ConfigInputsAndValidation.validateTicketReleaseRate();
+                    int customerRetrievalRate = ConfigInputsAndValidation.validateCustomerRetrievalRate();
+
+                    // Save new configuration
+                    Configuration config = new Configuration(maxTicketCapacity, totalTickets, ticketReleaseRate, customerRetrievalRate);
+                    ConfigurationManager configManager = new ConfigurationManager();
+                    configManager.saveConfiguration(config);
+                }
+
+                case 3 -> {
+                    System.out.println("Returning to Main Menu...");
+                    keepRunning = false; // Exit the loop to return to Main Menu
+                }
+                default -> System.out.println("Invalid choice. Please select 1, 2, or 3.");
             }
         }
     }
