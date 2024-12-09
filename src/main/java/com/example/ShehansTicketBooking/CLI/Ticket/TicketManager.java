@@ -36,25 +36,25 @@ public class TicketManager {
      */
     public void startSimulation() {
         if (vendorThread1 == null || !vendorThread1.isAlive()) {
-            Vendor vendor1 = new Vendor(ticketPool, config.getTicketReleaseRate());
+            Vendor vendor1 = new Vendor(ticketPool, config.getTicketReleaseRate(), "Vendor-1");
             vendorThread1 = new Thread(vendor1);
             vendorThread1.start();
         }
 
         if (vendorThread2 == null || !vendorThread2.isAlive()) {
-            Vendor vendor2 = new Vendor(ticketPool, config.getTicketReleaseRate());
+            Vendor vendor2 = new Vendor(ticketPool, config.getTicketReleaseRate(), "Vendor-2");
             vendorThread2 = new Thread(vendor2);
             vendorThread2.start();
         }
 
         if (customerThread == null || !customerThread.isAlive()) {
-            Customer customer = new Customer(ticketPool, config.getCustomerRetrievalRate());
+            Customer customer = new Customer(ticketPool, config.getCustomerRetrievalRate(), "Customer-1");
             customerThread = new Thread(customer);
             customerThread.start();
         }
 
         if (customerThread2 == null || !customerThread2.isAlive()) {
-            Customer customer2 = new Customer(ticketPool, config.getCustomerRetrievalRate());
+            Customer customer2 = new Customer(ticketPool, config.getCustomerRetrievalRate(), "Customer-2");
             customerThread2 = new Thread(customer2);
             customerThread2.start();
         }
