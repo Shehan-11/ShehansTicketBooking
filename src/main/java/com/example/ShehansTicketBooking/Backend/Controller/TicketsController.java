@@ -3,7 +3,7 @@ package com.example.ShehansTicketBooking.Backend.Controller;
 import com.example.ShehansTicketBooking.Backend.Enums.SystemStatus;
 import com.example.ShehansTicketBooking.Backend.Models.Configuration;
 import com.example.ShehansTicketBooking.Backend.Models.ThreadsManager;
-import com.example.ShehansTicketBooking.Backend.Models.Tickets;
+import com.example.ShehansTicketBooking.Backend.Models.TicketPool;
 import com.example.ShehansTicketBooking.Backend.Repo.ConfigurationRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,8 +40,8 @@ public class TicketsController {
         }
 
         // Initialize threadsManager with the latest configuration
-        Tickets tickets = new Tickets(latestConfig.getMaxTicketCapacity(), latestConfig.getTotalTickets());
-        threadsManager = new ThreadsManager(tickets, latestConfig);
+        TicketPool ticketPool = new TicketPool(latestConfig.getMaxTicketCapacity(), latestConfig.getTotalTickets());
+        threadsManager = new ThreadsManager(ticketPool, latestConfig);
 
         logger.info("Simulation Started");
         threadsManager.startSimulation();

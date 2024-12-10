@@ -11,11 +11,11 @@ public class ThreadsManager {
     private Thread customerThread2;
 
     // Ticket pool holds the current state of ticketsManager, and configuration defines simulation settings
-    private final Tickets tickets;
+    private final TicketPool ticketPool;
     private final Configuration config;
 
-    public ThreadsManager(Tickets tickets, Configuration config) {
-        this.tickets = tickets;
+    public ThreadsManager(TicketPool ticketPool, Configuration config) {
+        this.ticketPool = ticketPool;
         this.config = config;
     }
 
@@ -25,25 +25,25 @@ public class ThreadsManager {
      */
     public void startSimulation() {
         if (vendorThread1 == null || !vendorThread1.isAlive()) {
-            Vendors vendor1 = new Vendors(tickets, config.getTicketReleaseRate(), "Vendor-01");
+            Vendors vendor1 = new Vendors(ticketPool, config.getTicketReleaseRate(), "Vendor-01");
             vendorThread1 = new Thread(vendor1);
             vendorThread1.start();
         }
 
         if (vendorThread2 == null || !vendorThread2.isAlive()) {
-            Vendors vendor2 = new Vendors(tickets, config.getTicketReleaseRate(), "Vendor-02");
+            Vendors vendor2 = new Vendors(ticketPool, config.getTicketReleaseRate(), "Vendor-02");
             vendorThread2 = new Thread(vendor2);
             vendorThread2.start();
         }
 
         if (customerThread == null || !customerThread.isAlive()) {
-            Customers customer = new Customers(tickets, config.getCustomerRetrievalRate(), "Customer-01");
+            Customers customer = new Customers(ticketPool, config.getCustomerRetrievalRate(), "Customer-01");
             customerThread = new Thread(customer);
             customerThread.start();
         }
 
         if (customerThread2 == null || !customerThread2.isAlive()) {
-            Customers customer2 = new Customers(tickets, config.getCustomerRetrievalRate(), "Customer-02");
+            Customers customer2 = new Customers(ticketPool, config.getCustomerRetrievalRate(), "Customer-02");
             customerThread2 = new Thread(customer2);
             customerThread2.start();
         }
@@ -82,13 +82,13 @@ public class ThreadsManager {
      */
     public Map<String, Object> getMonitorStatusAsJson() {
         Map<String, Object> statusReport = new HashMap<>();
-        statusReport.put("MaxTicketCapacity", tickets.getMaxTicketCapacity());
-        statusReport.put("TotalTickets", tickets.getTotalTickets());
+        statusReport.put("MaxTicketCapacity", ticketPool.getMaxTicketCapacity());
+        statusReport.put("TotalTickets", ticketPool.getTotalTickets());
         statusReport.put("TicketReleaseRate", config.getTicketReleaseRate());
         statusReport.put("CustomerRetrievalRate", config.getCustomerRetrievalRate());
-        statusReport.put("CurrentTicket", tickets.getCurrentTicket());
-        statusReport.put("TotalSoldTickets", tickets.getTotalSoldTickets());
-        int remainingTickets = tickets.getMaxTicketCapacity() - tickets.getTotalSoldTickets() - tickets.getCurrentTicket();
+        statusReport.put("CurrentTicket", ticketPool.getCurrentTicket());
+        statusReport.put("TotalSoldTickets", ticketPool.getTotalSoldTickets());
+        int remainingTickets = ticketPool.getMaxTicketCapacity() - ticketPool.getTotalSoldTickets() - ticketPool.getCurrentTicket();
         statusReport.put("RemainingTickets", remainingTickets);
 
         return statusReport;
