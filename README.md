@@ -4,6 +4,10 @@
 This is a project that is made using Java and Springboot for simulate real time ticket booking system.
 
 Made with Springboot version 3.3.5
+
+## How to run the System?
+1st Go to com/example/ShehansTicketBooking/Backend/ShehansTicketBookingApplication.java then run the program.
+Then Start the Front-end Application using given information.
 ## API Reference
 
 #### Post a Configuration
